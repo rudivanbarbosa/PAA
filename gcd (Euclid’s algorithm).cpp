@@ -11,13 +11,13 @@ else{return a;}
 }
 
 
-int gdc(int m, int n){
+int gcd(int m, int n){
 int a = m ;
 int b = n;
 int r;
 if(n == 0){
 
-    printf("O m·ximo divisor comum entre %d e %d È %d", m,n, n);
+    printf("O m√°ximo divisor comum entre %d e %d √© %d", m,n, n);
 }
 do{
 
@@ -27,12 +27,12 @@ n = r;
 
     }while(n != 0);
 
-printf("O m·ximo divisor comum entre %d e %d È %d", a,b, m);
+printf("O m√°ximo divisor comum entre %d e %d √© %d", a,b, m);
 
 }
 int main(){
 setlocale(LC_ALL,"Portuguese");
 
-gdc(31415,14142);
+gcd(31415,14142);
 
 }
