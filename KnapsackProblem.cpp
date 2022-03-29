@@ -8,7 +8,6 @@ void subconjuntos(int conjunto[], int n)
 {
     ofstream saida("subconjuntos.txt");
     int count = pow(2, n);
-    int cont=0;
     vector <int> captura;
     for (int i = 0; i < count; i++) {
         for (int j = 0; j < n; j++) {
