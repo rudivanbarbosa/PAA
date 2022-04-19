@@ -1,79 +1,81 @@
-#include <bits/stdc++.h>
+#include <iostream>
 #include <vector>
 #include <fstream>
+#include <math.h>
 #include <algorithm>
 
 using namespace std;
 
-void subconjuntos(int conjunto[], int n)
+vector < pair <float, float> > pareto;
+
+void addpareto(float v1, float v2)
+	{
+		pareto.push_back(make_pair(v1, v2));
+	}
+
+
+void mochila( float lucro[], float peso[], int Capacidade, int n)
 {
-    ofstream saida("subconjuntos.txt");
-    int count = pow(2, n);
-    vector <int> captura;
-    for (int i = 0; i < count; i++) {
+
+vector <int> captura;
+
+float lucro_total = 0.0;
+float massa = 0.0;
+float aux = 0.0;
+double cont = pow(2, n);
+
+    for (int i = 0; i < cont; i++) {
         for (int j = 0; j < n; j++) {
 
             if ((i & (1 << j)) != 0){
-                saida << conjunto[j] << " ";
-                }else { saida << 0 << " ";}
+                captura.push_back(1);
+                }else {
+                     captura.push_back(0);
+                     }
             }
-        saida << "\n";
+        for(int k = 0; k < n; k++){
+                    lucro_total += lucro[k]*captura[k];
+                    massa += peso[k]*captura[k];
+
+                }
+        if( (aux <= lucro_total) && (lucro_total != 0.0) && massa <= Capacidade){
+                aux = lucro_total;
+                addpareto(lucro_total, massa);
+        }
+        lucro_total = 0.0;
+        massa = 0.0;
+        captura.clear();
     }
 
-}
-void deletar(){
-    remove("subconjuntos.txt");
-    remove("KnapsackProblem.o");
-}
-mochila(int conjunto[], int valor[], int peso[], int Capacidade, int n){
+sort(pareto.rbegin(), pareto.rend());
 
-    int y = pow(2,n);
-    subconjuntos(conjunto, n);
-
-ifstream entrada("subconjuntos.txt");
-int c[n][y];
-for(int j=0; j< y; j++){
-    for(int i=0; i< n; i++){
-
-    entrada >> c[i][j];
-}
-}
-
-int resultado = 0;
-int massa = 0;
-vector < int > solucoes;
-for( int i = 0; i < y; i++){
-    for( int j = 0; j < n; j++){
-
-    if(c[j][i] != 0){
-        massa =  massa + peso[j];
-        resultado = resultado + valor[j];
+for(int l = 1; l < pareto.size(); l++){
+    if(pareto[l].second >= pareto[0].second ){
+        pareto.erase (pareto.begin()+ l);
     }
 }
-  if (massa <= Capacidade){
-    solucoes.push_back(resultado);
-    }
-    massa = 0;
-    resultado = 0;
+
+for(int l = 0; l < pareto.size(); l++){
+    cout << pareto[l].first << " " << pareto[l].second << "\n";
 }
-
-stable_sort(solucoes.begin(), solucoes.end(), greater <int> () );
-
-cout << "Melhor Mochila: " << solucoes.front() << "\n";
 
 }
 
 int main()
 {
-    int conjunto[] = {1,2,3,4,5,6,7,8,9,10};
-    int valor[] = {5,7,6,10,8,3,4,1,7,3};
-    int peso[] = {15,18,13,23,9,10,11,5,14,5};
-    int capacidade = 100;
-    int qitens = sizeof(conjunto)/sizeof(int);
+int n = 20;
+int C = 998;
+float lucro[n];
+float peso[n];
 
-    mochila(conjunto, valor, peso, capacidade, qitens);
-    deletar();
+ifstream dados("dados20.txt");
+for(int i = 0; i<n; i++){
+    dados >> lucro[i];
+    dados >> peso[i];
+}
+dados.close();
 
+mochila(lucro, peso, C, n);
 
     return 0;
 }
