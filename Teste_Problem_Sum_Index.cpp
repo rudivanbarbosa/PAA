@@ -38,7 +38,7 @@ bool is_possible(vector<int> &v, int n, int i)
     {
         somaPAR += i;
     }
-    else if( v.size()%2 == 1 &&  i%2 ==1 )
+    else if( v.size()%2 == 1 &&  i%2 == 1 )
     {
         somaIMPAR += i;
     }
@@ -51,8 +51,6 @@ bool is_possible(vector<int> &v, int n, int i)
 
 
         }
-
-
 
  return true;
 }
